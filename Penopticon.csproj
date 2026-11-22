@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Penopticon</RootNamespace>
+    <AssemblyName>Penopticon</AssemblyName>
+    <Version>0.1.0</Version>
+    <Authors>tornotlukin</Authors>
+    <Description>Makes the pen act as a plain mouse while chosen apps have focus, and restores your normal pen setup (e.g. Windows Ink) everywhere else.</Description>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <OtdVersion>0.6.7</OtdVersion>
+    <OtdLib>$(MSBuildThisFileDirectory)lib\$(OtdVersion)\</OtdLib>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTabletDriver.Plugin" Version="$(OtdVersion)">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Built by tools/build-otd-reference.ps1. Compile-time only: the daemon already has these loaded. -->
+  <ItemGroup>
+    <Reference Include="OpenTabletDriver.Desktop">
+      <HintPath>$(OtdLib)OpenTabletDriver.Desktop.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="OpenTabletDriver">
+      <HintPath>$(OtdLib)OpenTabletDriver.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckOtdReference" BeforeTargets="ResolveAssemblyReferences" Condition="!Exists('$(OtdLib)OpenTabletDriver.Desktop.dll')">
+    <Error Text="OpenTabletDriver reference assemblies missing. Run: pwsh tools/build-otd-reference.ps1 -Tag v$(OtdVersion)" />
+  </Target>
+</Project>

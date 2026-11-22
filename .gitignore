@@ -1,0 +1,23 @@
+## .NET build artifacts
+bin/
+obj/
+
+## OpenTabletDriver reference assemblies (rebuilt by tools/build-otd-reference.ps1)
+lib/
+.otd-src/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+
+## Rider / JetBrains
+.idea/
+
+## OS
+Thumbs.db
+.DS_Store
+
+## Release packaging
+*.zip
+release-staging/
